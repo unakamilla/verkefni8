@@ -15,7 +15,19 @@ const text = (() => {
     _form.addEventListener('submit', formHandler);
 
     // TODO láta hluti í _items virka
-
+    buttons = document.getElementsByClassName("item__button");
+    for (i=0; i<buttons.length; i++) {
+      buttons[i].addEventListener('click', deleteItem);
+    }
+    texts = document.getElementsByClassName("item__text");
+    for (i=0; i<buttons.length; i++) {
+      texts[i].addEventListener('click', edit);
+      texts[i].addEventListener('keyup', commit) ;
+    }
+    boxes = document.getElementsByClassName("item__checkbox");
+    for (i=0; i<boxes.length; i++) {
+      boxes[i].addEventListener('click', finish);
+    }
   }
 
   function formHandler(e) {
@@ -26,15 +38,18 @@ const text = (() => {
 
   // event handler fyrir það að klára færslu
   function finish(e) {
-    e.setAttribute('class', 'item--done');
+    this.parentNode.classList.toggle('item--done');
   }
 
   // event handler fyrir það að breyta færslu
   function edit(e) {
+    // breyta span í input type text
+    // setja texta sem var fyrir í value
   }
 
   // event handler fyrir það að klára að breyta færslu
   function commit(e) {
+    // if (e.keyCode === 13) {}
   }
 
   // fall sem sér um að bæta við nýju item
