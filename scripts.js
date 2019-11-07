@@ -22,7 +22,7 @@ const text = (() => {
     texts = document.getElementsByClassName("item__text");
     for (i=0; i<buttons.length; i++) {
       texts[i].addEventListener('click', edit);
-      texts[i].addEventListener('keydown', commit);
+      texts[i].addEventListener('keyup', commit);
     }
     boxes = document.getElementsByClassName("item__checkbox");
     for (i=0; i<boxes.length; i++) {
@@ -43,7 +43,7 @@ const text = (() => {
   }
 
   // event handler fyrir það að breyta færslu
-  function edit(e) {
+  function edit(e) { // verkar á span item__text undir li item
     this.removeEventListener('click', edit);
     task = this.parentNode.querySelector('.item__text').textContent;
     const changeTask = document.createElement('input');
@@ -57,8 +57,8 @@ const text = (() => {
   }
 
   // event handler fyrir það að klára að breyta færslu
-  function commit(e) { //verkar á span item__text undir li item
-    if (e.keyCode == ENTER_KEYCODE) {
+  function commit(e) {
+    if (e.keyCode === ENTER_KEYCODE) {
       task = this.value;
       this.parentNode.querySelector('.item__edit').remove();
       this.parentNode.querySelector('.item__text').textContent = task;
