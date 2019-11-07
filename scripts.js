@@ -22,7 +22,7 @@ const text = (() => {
     texts = document.getElementsByClassName("item__text");
     for (i=0; i<buttons.length; i++) {
       texts[i].addEventListener('click', edit);
-      texts[i].addEventListener('keyup', commit);
+      texts[i].addEventListener('keypress', commit);
     }
     boxes = document.getElementsByClassName("item__checkbox");
     for (i=0; i<boxes.length; i++) {
@@ -33,7 +33,9 @@ const text = (() => {
   function formHandler(e) {
     e.preventDefault();
     task = document.querySelector('.form__input').value;
-    add(task);
+    if (/\S/.test(task)) { // "/\S/" er regex fyrir tóman streng
+      add(task);
+    }
     document.querySelector('.form__input').value = "";
   }
 
@@ -58,11 +60,15 @@ const text = (() => {
 
   // event handler fyrir það að klára að breyta færslu
   function commit(e) {
-    if (e.keyCode === ENTER_KEYCODE) {
-      task = this.value;
+    console.log(e.keyCode)
+    if (e.code === ENTER_KEYCODE) {
+      task = this.parentNode.querySelector('item__edit').value;
       this.parentNode.querySelector('.item__edit').remove();
       this.parentNode.querySelector('.item__text').textContent = task;
       this.parentNode.querySelector('.item__text').style.display = 'block';
+      this.parentNode.querySelector('.item__button').style.display = 'block';
+      this.addEventListener('click', edit);
+      // virkar ekki, ég skil ekki af hverju :(
     }
   }
 
@@ -89,11 +95,12 @@ const text = (() => {
     newButton.appendChild(buttonText);
     newButton.addEventListener('click', deleteItem);
 
-    items.appendChild(newItem); // wot
+    items.appendChild(newItem);
   }
 
   // event handler til að eyða færslu
   function deleteItem(e) {
+    this.parentNode.remove();
   }
 
   // hjálparfall til að útbúa element
